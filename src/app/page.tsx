@@ -118,9 +118,11 @@ export default function VotacionPage() {
 
         <div className="text-center mb-10">
           <h2 className="text-black text-xs font-bold tracking-[0.3em] mb-3 uppercase border-b-2 border-black inline-block pb-1 bg-white/90 px-2">
-            Competencia Oficial
+            Muestra Anual
           </h2>
-          <h1 className="text-4xl font-black mb-2 tracking-tight uppercase bg-white/90 inline-block px-2">{categoria?.nombre || 'Cargando...'}</h1>
+          <h1 className="text-3xl sm:text-4xl font-black mb-2 tracking-tight uppercase bg-white/90 inline-block px-2">
+            Mejor Performance
+          </h1>
           <p className="text-neutral-500 font-bold text-sm tracking-wide bg-white/90 inline-block px-2">Seleccioná tu top 3 en orden</p>
         </div>
 
@@ -128,7 +130,7 @@ export default function VotacionPage() {
           {participantes.map((p, index) => {
             const puesto = getPuesto(p.id)
             const isSelected = puesto !== null
-            const numeroFoto = index + 1 // Mapea 1, 2, 3, 4 según el orden en que aparecen
+            const numeroFoto = index + 1 
 
             return (
               <div 

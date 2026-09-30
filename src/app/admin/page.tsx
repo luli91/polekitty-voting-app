@@ -83,7 +83,7 @@ export default function AdminResultados() {
           <div className="bg-white border-8 border-black p-8 sm:p-12 shadow-[16px_16px_0px_0px_rgba(0,0,0,1)] max-w-lg w-full relative">
             
             <span className="bg-black text-white text-sm font-black uppercase px-4 py-2 tracking-[0.3em] inline-block mb-6 shadow-[4px_4px_0px_0px_rgba(150,150,150,1)]">
-              🏆 ¡CAMPEONA DE LA CATEGORÍA! 🏆
+              ¡GANADOR! 
             </span>
 
             {/* FOTO GIGANTE DE LA GANADORA */}
@@ -127,7 +127,13 @@ export default function AdminResultados() {
         <div className="bg-white p-6 sm:p-8 rounded-none border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 pb-4 border-b-4 border-black gap-4">
             <div>
-              <h1 className="text-3xl font-black uppercase tracking-tight">{categoria?.nombre || 'Cargando...'}</h1>
+              {/* TÍTULO FIJO ACTUALIZADO */}
+              <h2 className="text-black text-xs font-bold tracking-[0.3em] mb-2 uppercase border-b-2 border-black inline-block pb-1 bg-white/90 px-2">
+                Resultados
+              </h2>
+              <h1 className="text-xl sm:text-1xl font-black uppercase tracking-tight">
+                Muestra Anual - Mejor Performance
+              </h1>
               <span className="bg-black text-white font-bold text-xs px-3 py-1 uppercase mt-2 inline-block">
                 Estado: Abierta
               </span>
@@ -139,7 +145,7 @@ export default function AdminResultados() {
                 onClick={() => lanzarFestejoGanadora(resultados[0], 0)}
                 className="bg-black text-white hover:bg-neutral-800 border-2 border-black px-5 py-3 text-xs font-black uppercase tracking-widest shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-y-1 transition-all"
               >
-                🎉 ¡Anunciar Ganadora!
+                ¡Anunciar Ganadora!
               </button>
             )}
           </div>
@@ -204,6 +210,7 @@ export default function AdminResultados() {
             </table>
           </div>
         </div>
+
         {/* SECCIÓN DEL CÓDIGO QR PARA EL EVENTO */}
         <div className="bg-white p-6 sm:p-8 rounded-none border-4 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] mt-8 text-center">
           <h2 className="text-xl font-black uppercase tracking-tight mb-2">QR de Votación Oficial</h2>
@@ -212,15 +219,14 @@ export default function AdminResultados() {
           </p>
           
           <div className="inline-block p-4 bg-white border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
-            {/* Aquí reemplazaremos el enlace de ejemplo por tu link real de Vercel cuando hagas el deploy */}
             <img 
-              src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://pole-voting-app.vercel.app" 
+              src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://polekitty-voting-app.vercel.app" 
               alt="QR Code Votación" 
               className="w-48 h-48 mx-auto"
             />
           </div>
           <p className="mt-4 text-xs font-mono font-bold text-neutral-600">
-            https://pole-voting-app.vercel.app
+            https://polekitty-voting-app.vercel.app
           </p>
         </div>
       </div>
