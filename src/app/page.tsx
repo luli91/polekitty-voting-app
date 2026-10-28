@@ -6,19 +6,15 @@ import Link from 'next/link'
 
 export default function VotacionPage() {
   const [participantes, setParticipantes] = useState<any[]>([])
-  const [categoria, setCategoria] = useState<any>(null)
   const [votos, setVotos] = useState<{ [key: number]: string | null }>({ 1: null, 2: null, 3: null })
   const [yaVoto, setYaVoto] = useState(false)
   const [enviando, setEnviando] = useState(false)
 
   useEffect(() => {
     const cargarDatos = async () => {
-      const { data: catData } = await supabase.from('evento_categorias').select('*').eq('estado', 'abierta').single()
-      if (catData) {
-        setCategoria(catData)
-        const { data: partData } = await supabase.from('evento_participantes').select('*').eq('categoria_id', catData.id)
-        if (partData) setParticipantes(partData)
-      }
+      const { data: partData } = await supabase.from('evento_participantes').select('*')
+      if (partData) setParticipantes(partData)
+
       if (localStorage.getItem('voto_registrado')) setYaVoto(true)
     }
     cargarDatos()
@@ -49,7 +45,6 @@ export default function VotacionPage() {
     }
 
     const { error } = await supabase.from('evento_votos').insert({
-      categoria_id: categoria?.id,
       puesto_1_id: votos[1],
       puesto_2_id: votos[2],
       puesto_3_id: votos[3],
@@ -89,14 +84,14 @@ export default function VotacionPage() {
   return (
     <div className="min-h-screen bg-white text-black flex flex-col items-center p-6 font-sans relative overflow-hidden z-0">
       
-      {/* FONDO: Tu imagen exacta de las orejitas */}
+      {/* FONDO: Orejitas */}
       <img 
         src="/pole_kitty_fondo.jpg" 
         alt="Orejitas de fondo" 
         className="fixed bottom-0 sm:-bottom-10 left-1/2 -translate-x-1/2 w-[200%] sm:w-[150vw] max-w-[1000px] -z-10 mix-blend-multiply pointer-events-none"
       />
 
-      {/* Botón discreto flotante para ir al Admin / Resultados */}
+      {/* Botón flotante para ir a resultados */}
       <div className="absolute top-4 right-4 z-30">
         <Link href="/admin">
           <span className="text-[10px] font-black uppercase tracking-widest border border-black px-3 py-1 bg-white hover:bg-black hover:text-white transition-colors shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
@@ -127,42 +122,24 @@ export default function VotacionPage() {
         </div>
 
         <div className="space-y-4 relative z-20">
-          {participantes.map((p, index) => {
+          {participantes.map((p) => {
             const puesto = getPuesto(p.id)
             const isSelected = puesto !== null
-            const numeroFoto = index + 1 
 
             return (
               <div 
                 key={p.id}
                 onClick={() => handleSelect(p.id)}
-                className={`flex items-center p-3 sm:p-5 cursor-pointer transition-all duration-200 border-2 ${
+                className={`flex items-center p-4 sm:p-5 cursor-pointer transition-all duration-200 border-2 ${
                   isSelected 
                     ? 'border-black bg-black text-white shadow-[6px_6px_0px_0px_rgba(0,0,0,0.2)] translate-y-[-2px]' 
                     : 'border-black bg-white text-black hover:bg-neutral-100 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]'
                 }`}
               >
-                <div className={`w-8 h-8 shrink-0 rounded-full flex items-center justify-center mr-3 sm:mr-4 text-sm font-bold border-2 ${
+                <div className={`w-8 h-8 shrink-0 rounded-full flex items-center justify-center mr-4 text-sm font-bold border-2 ${
                   isSelected ? 'border-white bg-white text-black' : 'border-black text-transparent'
                 }`}>
                   {isSelected ? `${puesto}º` : ''}
-                </div>
-                
-                {/* FOTO USANDO EL ÍNDICE (staff-1.jpg, staff-2.jpg, etc.) */}
-                <div className={`w-10 h-10 sm:w-12 sm:h-12 rounded-full border-2 overflow-hidden mr-3 sm:mr-4 shrink-0 flex items-center justify-center font-black text-xs relative ${
-                  isSelected ? 'border-white bg-white text-black' : 'border-black bg-neutral-200 text-black'
-                }`}>
-                  <img 
-                    src={`/participantes/staff-${numeroFoto}.jpg`} 
-                    alt={p.nombre}
-                    className="w-full h-full object-cover absolute inset-0"
-                    onError={(e) => {
-                      e.currentTarget.style.display = 'none';
-                    }}
-                  />
-                  <span>
-                    {p.nombre.split(' ').map((n: string) => n[0]).join('').substring(0, 2)}
-                  </span>
                 </div>
 
                 <span className="font-bold tracking-widest uppercase text-sm sm:text-lg truncate">
